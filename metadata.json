@@ -1,0 +1,8 @@
+{
+  "name": "QualifyAI - High-Ticket Lead Qualification",
+  "description": "An AI-powered conversational intake platform that pre-qualifies high-ticket service leads, scores them, and automates booking for sales-ready prospects.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
