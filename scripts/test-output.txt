@@ -1,7 +1,0 @@
-
----------------------------------
-Trying model: gemini-flash-latest
-SUCCESS with gemini-flash-latest! Response: {
-  "message": "Hello",
-  "status": "success"
-}

@@ -6,11 +6,10 @@ import {
     query,
     where,
     onSnapshot,
-    doc,
-    orderBy
+    doc
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Qualifier, Lead, UserProfile } from '@/types';
+import { Qualifier, Lead } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 
 export const useUserLeads = () => {
@@ -25,20 +24,28 @@ export const useUserLeads = () => {
             return;
         }
 
-        setLoading(true); // Reset loading when user changes
+        setLoading(true);
 
         const q = query(
             collection(db, 'leads'),
-            where('userId', '==', user.uid),
-            orderBy('createdAt', 'desc')
+            where('userId', '==', user.uid)
         );
 
         const unsubscribe = onSnapshot(q,
             (snapshot) => {
-                const data = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                })) as Lead[];
+                const data = snapshot.docs.map(doc => {
+                    const d = doc.data();
+                    return {
+                        id: doc.id,
+                        ...d,
+                        createdAt: d.createdAt?.toMillis ? d.createdAt.toMillis() : (typeof d.createdAt === 'number' ? d.createdAt : Date.now()),
+                        updatedAt: d.updatedAt?.toMillis ? d.updatedAt.toMillis() : (typeof d.updatedAt === 'number' ? d.updatedAt : Date.now())
+                    };
+                }) as unknown as Lead[];
+
+                // Client-side sort (descending)
+                data.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
                 setLeads(data);
                 setLoading(false);
             },
@@ -70,16 +77,24 @@ export const useQualifiers = () => {
 
         const q = query(
             collection(db, 'qualifiers'),
-            where('userId', '==', user.uid),
-            orderBy('createdAt', 'desc')
+            where('userId', '==', user.uid)
         );
 
         const unsubscribe = onSnapshot(q,
             (snapshot) => {
-                const data = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                })) as Qualifier[];
+                const data = snapshot.docs.map(doc => {
+                    const d = doc.data();
+                    return {
+                        id: doc.id,
+                        ...d,
+                        createdAt: d.createdAt?.toMillis ? d.createdAt.toMillis() : (typeof d.createdAt === 'number' ? d.createdAt : Date.now()),
+                        updatedAt: d.updatedAt?.toMillis ? d.updatedAt.toMillis() : (typeof d.updatedAt === 'number' ? d.updatedAt : Date.now())
+                    };
+                }) as unknown as Qualifier[];
+
+                // Client-side sort (descending)
+                data.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
                 setQualifiers(data);
                 setLoading(false);
             },
@@ -110,16 +125,24 @@ export const useLeads = (qualifierId: string) => {
 
         const q = query(
             collection(db, 'leads'),
-            where('qualifierId', '==', qualifierId),
-            orderBy('createdAt', 'desc')
+            where('qualifierId', '==', qualifierId)
         );
 
         const unsubscribe = onSnapshot(q,
             (snapshot) => {
-                const data = snapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                })) as Lead[];
+                const data = snapshot.docs.map(doc => {
+                    const d = doc.data();
+                    return {
+                        id: doc.id,
+                        ...d,
+                        createdAt: d.createdAt?.toMillis ? d.createdAt.toMillis() : (typeof d.createdAt === 'number' ? d.createdAt : Date.now()),
+                        updatedAt: d.updatedAt?.toMillis ? d.updatedAt.toMillis() : (typeof d.updatedAt === 'number' ? d.updatedAt : Date.now())
+                    };
+                }) as unknown as Lead[];
+
+                // Client-side sort (descending)
+                data.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
                 setLeads(data);
                 setLoading(false);
             },

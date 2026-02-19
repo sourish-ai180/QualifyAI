@@ -1,4 +1,4 @@
-"use server";
+
 
 import { model } from '@/lib/gemini';
 import { QualificationCriteria, ChatMessage } from '@/types';

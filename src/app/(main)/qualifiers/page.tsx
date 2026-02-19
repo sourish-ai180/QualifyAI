@@ -1,14 +1,15 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit3, Trash2, ExternalLink, Globe, Zap, Settings, MoreVertical } from 'lucide-react';
+import { Plus, Edit3, Trash2, ExternalLink, Globe, Zap, Settings, MoreVertical, Copy, Check } from 'lucide-react';
 import { useQualifiers, useUserLeads } from '@/hooks/useFirestore';
 import { LeadStatus } from '@/types';
 
 const QualifiersPage: React.FC = () => {
     const { qualifiers, loading: qualifiersLoading } = useQualifiers();
     const { leads, loading: leadsLoading } = useUserLeads();
+    const [copiedId, setCopiedId] = useState<string | null>(null);
 
     // Enrich qualifiers with stats
     const enrichedQualifiers = qualifiers.map(q => {
@@ -28,6 +29,13 @@ const QualifiersPage: React.FC = () => {
             })
         };
     });
+
+    const handleCopyLink = (id: string) => {
+        const url = `${window.location.origin}/chat/${id}`;
+        navigator.clipboard.writeText(url);
+        setCopiedId(id);
+        setTimeout(() => setCopiedId(null), 2000);
+    };
 
     if (qualifiersLoading || leadsLoading) {
         return (
@@ -82,18 +90,26 @@ const QualifiersPage: React.FC = () => {
                             </div>
                         </div>
 
-                        <div className="mt-auto pt-4 border-t border-gray-800 flex items-center justify-between gap-3">
+                        <div className="mt-auto pt-4 border-t border-gray-800 flex items-center justify-between gap-2">
+                            <button
+                                onClick={() => handleCopyLink(q.id)}
+                                className="flex-1 py-2.5 bg-dark-800 hover:bg-dark-700 text-white rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all border border-transparent hover:border-gray-700"
+                                title="Copy Link"
+                            >
+                                {copiedId === q.id ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
+                                {copiedId === q.id ? 'Copied' : 'Copy'}
+                            </button>
                             <Link
                                 href={`/chat/${q.id}`}
                                 target="_blank"
-                                className="flex-1 py-2.5 bg-dark-800 hover:bg-dark-700 text-white rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all"
+                                className="flex-1 py-2.5 bg-primary-600/10 hover:bg-primary-600/20 text-primary-400 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all border border-primary-500/20"
                             >
-                                <Globe size={14} />
-                                Test Link
+                                <ExternalLink size={14} />
+                                Test
                             </Link>
                             <Link
                                 href={`/builder/${q.id}`}
-                                className="flex-1 py-2.5 bg-primary-600/10 hover:bg-primary-600/20 text-primary-400 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all border border-primary-500/20"
+                                className="flex-1 py-2.5 bg-dark-800 hover:bg-dark-700 text-white rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all border border-transparent hover:border-gray-700"
                             >
                                 <Edit3 size={14} />
                                 Edit

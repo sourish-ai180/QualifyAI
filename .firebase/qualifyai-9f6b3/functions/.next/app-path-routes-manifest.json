@@ -1,0 +1,20 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/checkout/route": "/api/checkout",
+  "/api/email/route": "/api/email",
+  "/api/webhooks/stripe/route": "/api/webhooks/stripe",
+  "/chat/[id]/page": "/chat/[id]",
+  "/(main)/docs/page": "/docs",
+  "/(main)/features/page": "/features",
+  "/(main)/login/page": "/login",
+  "/(main)/privacy/page": "/privacy",
+  "/(main)/dashboard/page": "/dashboard",
+  "/(main)/builder/page": "/builder",
+  "/(main)/signup/page": "/signup",
+  "/(main)/terms/page": "/terms",
+  "/(main)/builder/[id]/page": "/builder/[id]",
+  "/(main)/leads/page": "/leads",
+  "/(main)/pricing/page": "/pricing",
+  "/(main)/qualifiers/page": "/qualifiers",
+  "/(main)/page": "/"
+}

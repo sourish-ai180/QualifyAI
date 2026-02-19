@@ -51,8 +51,12 @@ const LandingPage: React.FC = () => {
                                         <span className="font-semibold text-sm">Real-time Lead Scoring</span>
                                     </div>
                                     <div className="h-40 flex items-end justify-between gap-2 px-2">
-                                        {[40, 70, 45, 90, 65, 80].map((h, i) => (
-                                            <div key={i} className={`w-full rounded-t-lg transition-all duration-1000 ${i === 3 ? 'bg-primary-500 glow-primary h-[90%]' : 'bg-gray-800 h-[' + h + '%]'}`}></div>
+                                        {[40, 70, 45, 90, 65, 80, 55].map((h, i) => (
+                                            <div
+                                                key={i}
+                                                className={`w-full rounded-t-lg transition-all duration-1000 ${i === 3 ? 'bg-primary-500 glow-primary' : 'bg-gray-800'}`}
+                                                style={{ height: `${h}%` }}
+                                            ></div>
                                         ))}
                                     </div>
                                     <div className="flex justify-between items-center bg-primary-900/20 border border-primary-500/20 p-3 rounded-lg">

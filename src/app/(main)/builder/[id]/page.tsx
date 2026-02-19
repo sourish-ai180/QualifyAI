@@ -1,5 +1,9 @@
-"use client";
-
-// Re-exporting the Builder component for the dynamic route
 import QualifierBuilder from '../page';
-export default QualifierBuilder;
+
+export async function generateStaticParams() {
+    return [{ id: '1' }];
+}
+
+export default function Page() {
+    return <QualifierBuilder />;
+}
