@@ -1,17 +1,17 @@
 {
   "/_not-found/page": "/_not-found",
-  "/chat/[id]/page": "/chat/[id]",
   "/(main)/features/page": "/features",
-  "/(main)/pricing/page": "/pricing",
-  "/(main)/docs/page": "/docs",
   "/(main)/builder/page": "/builder",
-  "/(main)/page": "/",
   "/(main)/dashboard/page": "/dashboard",
-  "/(main)/privacy/page": "/privacy",
+  "/(main)/login/page": "/login",
   "/(main)/leads/page": "/leads",
-  "/(main)/qualifiers/page": "/qualifiers",
+  "/(main)/page": "/",
+  "/(main)/docs/page": "/docs",
+  "/(main)/privacy/page": "/privacy",
+  "/(main)/pricing/page": "/pricing",
   "/(main)/terms/page": "/terms",
+  "/(main)/qualifiers/page": "/qualifiers",
   "/(main)/signup/page": "/signup",
-  "/(main)/builder/[id]/page": "/builder/[id]",
-  "/(main)/login/page": "/login"
+  "/chat/[id]/page": "/chat/[id]",
+  "/(main)/builder/[id]/page": "/builder/[id]"
 }
