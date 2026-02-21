@@ -14,7 +14,7 @@ const LandingPage: React.FC = () => {
                     <div className="text-center max-w-4xl mx-auto">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-950/50 border border-primary-800/50 text-primary-400 text-sm font-semibold mb-8 animate-pulse-slow">
                             <Zap size={16} />
-                            <span>AI-Powered Lead Qualification for 2025</span>
+                            <span>AI-Powered Lead Qualification for 2026</span>
                         </div>
                         <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-[1.1] mb-8 tracking-tight">
                             Stop Wasting <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-indigo-500">15+ Hours</span> a Week on Unqualified Calls

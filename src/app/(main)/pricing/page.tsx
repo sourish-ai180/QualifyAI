@@ -22,7 +22,7 @@ const PricingPage: React.FC = () => {
         },
         {
             q: "Does it integrate with my CRM?",
-            a: "Currently, we integrate with Calendly and provide Webhook support. Direct HubSpot and Pipedrive integrations are launching in Q1 2025."
+            a: "Currently, we integrate with Calendly and provide Webhook support. Direct HubSpot and Pipedrive integrations are launching in Q1 2026."
         },
         {
             q: "Is there a limit on how much the AI can chat?",
