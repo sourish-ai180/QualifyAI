@@ -31,7 +31,7 @@ const QualifiersPage: React.FC = () => {
     });
 
     const handleCopyLink = (id: string) => {
-        const url = `${window.location.origin}/chat/${id}`;
+        const url = `${window.location.origin}/chat?id=${id}`;
         navigator.clipboard.writeText(url);
         setCopiedId(id);
         setTimeout(() => setCopiedId(null), 2000);
@@ -100,7 +100,7 @@ const QualifiersPage: React.FC = () => {
                                 {copiedId === q.id ? 'Copied' : 'Copy'}
                             </button>
                             <Link
-                                href={`/chat/${q.id}`}
+                                href={`/chat?id=${q.id}`}
                                 target="_blank"
                                 className="flex-1 py-2.5 bg-primary-600/10 hover:bg-primary-600/20 text-primary-400 rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all border border-primary-500/20"
                             >
@@ -108,7 +108,7 @@ const QualifiersPage: React.FC = () => {
                                 Test
                             </Link>
                             <Link
-                                href={`/builder/${q.id}`}
+                                href={`/builder?id=${q.id}`}
                                 className="flex-1 py-2.5 bg-dark-800 hover:bg-dark-700 text-white rounded-lg text-xs font-bold flex items-center justify-center gap-2 transition-all border border-transparent hover:border-gray-700"
                             >
                                 <Edit3 size={14} />

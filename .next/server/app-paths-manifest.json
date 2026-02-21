@@ -1,17 +1,3 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/(main)/features/page": "app/(main)/features/page.js",
-  "/(main)/builder/page": "app/(main)/builder/page.js",
-  "/(main)/dashboard/page": "app/(main)/dashboard/page.js",
-  "/(main)/login/page": "app/(main)/login/page.js",
-  "/(main)/leads/page": "app/(main)/leads/page.js",
-  "/(main)/page": "app/(main)/page.js",
-  "/(main)/docs/page": "app/(main)/docs/page.js",
-  "/(main)/privacy/page": "app/(main)/privacy/page.js",
-  "/(main)/pricing/page": "app/(main)/pricing/page.js",
-  "/(main)/terms/page": "app/(main)/terms/page.js",
-  "/(main)/qualifiers/page": "app/(main)/qualifiers/page.js",
-  "/(main)/signup/page": "app/(main)/signup/page.js",
-  "/chat/[id]/page": "app/chat/[id]/page.js",
-  "/(main)/builder/[id]/page": "app/(main)/builder/[id]/page.js"
+  "/(main)/page": "app/(main)/page.js"
 }

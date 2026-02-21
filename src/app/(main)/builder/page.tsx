@@ -1,14 +1,21 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Save, ChevronLeft, Plus, Trash2, Calendar, Target, DollarSign, Clock, Layout, Globe, FileText, User } from 'lucide-react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Save, ChevronLeft, Plus, Trash2, Calendar, Target, DollarSign, Clock, Layout, FileText, User } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { createQualifier } from '@/lib/firestore';
+import { createQualifier, updateQualifier } from '@/lib/firestore';
+import { useQualifier } from '@/hooks/useFirestore';
 
-const QualifierBuilder: React.FC = () => {
+const BuilderClient: React.FC = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const qualifierId = searchParams.get('id');
     const { user } = useAuth();
+
+    // Fetch existing qualifier if editing
+    const { qualifier, loading: fetchingQualifier } = useQualifier(qualifierId);
+
     const [loading, setLoading] = useState(false);
 
     // Form State
@@ -22,6 +29,22 @@ const QualifierBuilder: React.FC = () => {
     const [idealPersona, setIdealPersona] = useState('');
     const [problems, setProblems] = useState<string[]>([]);
     const [newProblem, setNewProblem] = useState('');
+
+    // Populate form when qualifier loads
+    useEffect(() => {
+        if (qualifier) {
+            setName(qualifier.name || '');
+            setDescription(qualifier.description || '');
+            setCalendly(qualifier.calendlyLink || '');
+
+            if (qualifier.criteria) {
+                setMinBudget(qualifier.criteria.minBudget || '');
+                setTimeline(qualifier.criteria.maxTimelineMonths || '');
+                setIdealPersona(qualifier.criteria.idealPersona || '');
+                setProblems(qualifier.criteria.keyProblems || []);
+            }
+        }
+    }, [qualifier]);
 
     const handleAddProblem = () => {
         if (newProblem && !problems.includes(newProblem)) {
@@ -57,7 +80,14 @@ const QualifierBuilder: React.FC = () => {
                 }
             };
 
-            await createQualifier(qualifierData);
+            if (qualifierId) {
+                // Update existing
+                await updateQualifier(qualifierId, qualifierData);
+            } else {
+                // Create new
+                await createQualifier(qualifierData);
+            }
+
             router.push('/qualifiers');
         } catch (error: any) {
             console.error("Error saving qualifier:", error?.code, error?.message, error);
@@ -67,13 +97,21 @@ const QualifierBuilder: React.FC = () => {
         }
     };
 
+    if (fetchingQualifier) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+            </div>
+        );
+    }
+
     return (
         <div className="max-w-5xl mx-auto px-6 py-10">
             <div className="flex items-center gap-4 mb-8">
                 <button onClick={() => router.push('/qualifiers')} className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all">
                     <ChevronLeft size={24} />
                 </button>
-                <h1 className="text-3xl font-bold text-white">Create Lead Qualifier</h1>
+                <h1 className="text-3xl font-bold text-white">{qualifierId ? 'Edit Qualifier' : 'Create Lead Qualifier'}</h1>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -206,12 +244,16 @@ const QualifierBuilder: React.FC = () => {
                 {/* Preview / Sidebar */}
                 <div className="space-y-6">
                     <div className="glass p-6 rounded-2xl border-gray-800/50">
-                        <h3 className="font-bold text-white mb-4">Publish Qualifier</h3>
-                        <p className="text-sm text-gray-400 mb-6">Once saved, your AI agent will be ready to qualify leads based on these criteria.</p>
+                        <h3 className="font-bold text-white mb-4">{qualifierId ? 'Update Qualifier' : 'Publish Qualifier'}</h3>
+                        <p className="text-sm text-gray-400 mb-6">
+                            {qualifierId
+                                ? 'Save your changes to update this qualifier.'
+                                : 'Once saved, your AI agent will be ready to qualify leads based on these criteria.'}
+                        </p>
 
                         <button
                             onClick={handleSave}
-                            disabled={loading}
+                            disabled={loading || fetchingQualifier}
                             className={`w-full py-4 bg-primary-600 hover:bg-primary-500 text-white rounded-xl font-bold flex items-center justify-center gap-2 btn-glow transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
                             {loading ? (
@@ -222,7 +264,7 @@ const QualifierBuilder: React.FC = () => {
                             ) : (
                                 <>
                                     <Save size={20} />
-                                    Save & Publish
+                                    {qualifierId ? 'Update Qualifier' : 'Save & Publish'}
                                 </>
                             )}
                         </button>
@@ -240,4 +282,10 @@ const QualifierBuilder: React.FC = () => {
     );
 };
 
-export default QualifierBuilder;
+export default function Page() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div></div>}>
+            <BuilderClient />
+        </Suspense>
+    );
+}

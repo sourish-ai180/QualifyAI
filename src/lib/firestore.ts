@@ -57,6 +57,14 @@ export const createQualifier = async (qualifier: Omit<Qualifier, 'id' | 'created
     return docRef.id;
 };
 
+export const updateQualifier = async (qualifierId: string, data: Partial<Qualifier>) => {
+    const qualifierRef = doc(db, 'qualifiers', qualifierId);
+    await updateDoc(qualifierRef, {
+        ...data,
+        updatedAt: serverTimestamp()
+    });
+};
+
 export const getUserQualifiers = async (userId: string): Promise<Qualifier[]> => {
     const q = query(collection(db, 'qualifiers'), where('userId', '==', userId));
     const querySnapshot = await getDocs(q);

@@ -158,7 +158,7 @@ export const useLeads = (qualifierId: string) => {
     return { leads, loading };
 };
 
-export const useQualifier = (qualifierId: string) => {
+export const useQualifier = (qualifierId: string | null | undefined) => {
     const [qualifier, setQualifier] = useState<Qualifier | null>(null);
     const [loading, setLoading] = useState(true);
 
